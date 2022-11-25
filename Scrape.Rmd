@@ -1,0 +1,40 @@
+---
+title: "Scrape"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library(rvest)
+library(knitr)
+```
+
+# Scraping directly from a table
+```{r}
+wiki <- read_html("https://en.wikipedia.org/wiki/List_of_Academy_Award-winning_films")
+print(wiki)
+```
+
+```{r}
+movies <- wiki %>%
+  html_elements("tbody") %>%
+  html_table()
+movies <- movies[[1]]
+kable(head(movies))
+```
+
+#Scraping from a non-table site
+```{r}
+link <- read_html("https://www.thecrazytourist.com/15-best-things-to-do-in-athens-ga/")
+print(link)
+```
+```{r}
+ath2do <- link %>%
+  html_elements(".entry-content h2") 
+
+print(ath2do)
+```
